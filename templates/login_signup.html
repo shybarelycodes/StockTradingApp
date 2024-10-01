@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Simulator - Login/Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>STOCK MARKET SIMULATOR</h1>
+        </header>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form container for login and signup forms side by side -->
+        <div class="form-container">
+            <!-- Login Form -->
+            <div class="form-box">
+                <h2>LOGIN</h2>
+                <p>Welcome back</p>
+                <form action="{{ url_for('login') }}" method="POST">
+                    <label for="login_email">Email</label>
+                    <input type="email" name="email" id="login_email" placeholder="Enter email" required>
+
+                    <label for="login_password">Password</label>
+                    <input type="password" name="password" id="login_password" placeholder="Enter password" required>
+
+                    <a href="#">Forgot password?</a>
+                    <button type="submit">Continue</button>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form-box">
+                <h2>SIGN UP</h2>
+                <p>Begin your journey, here</p>
+                <form action="{{ url_for('signup') }}" method="POST">
+                    <label for="signup_first_name">First Name</label>
+                    <input type="text" name="first_name" id="signup_first_name" placeholder="Input first name" required>
+
+                    <label for="signup_last_name">Last Name</label>
+                    <input type="text" name="last_name" id="signup_last_name" placeholder="Input last name" required>
+
+                    <label for="signup_email">Email</label>
+                    <input type="email" name="email" id="signup_email" placeholder="example.email@gmail.com" required>
+
+                    <label for="signup_password">Password</label>
+                    <input type="password" name="password" id="signup_password" placeholder="Enter at least 8+ characters" required>
+
+                    <p>By signing up, I agree with the <a href="#">Terms of Use & Privacy Policy</a></p>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

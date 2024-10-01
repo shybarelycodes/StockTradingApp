@@ -1,0 +1,491 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0a0f2c; /* Dark background */
+    color: #f4f6f9; /* Light text for readability */
+    padding: 20px;
+}
+
+/* Grid-based Dashboard Layout */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    grid-column: 1 / -1; /* Full width */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 32px;
+    color: #fff;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #4e7fff;
+    font-size: 16px;
+}
+
+/* Portfolio Summary */
+.portfolio-summary {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    grid-column: 1 / 3;
+}
+
+/* News Section */
+.news-section {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.news-article {
+    background-color: #2c3460;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.news-article h4 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.news-article p {
+    color: #ccc;
+}
+
+.box {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.holdings-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 0; /* Adds padding to increase height dynamically */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #4e7fff;
+    text-align: left;
+    font-size: 14px;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Sidebar: Performance and Watchlist */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.performance, .watchlist {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.performance h3, .watchlist h3 {
+    font-size: 18px;
+    color: #fff;
+}
+
+.performance h4 {
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.chart {
+    height: 150px;
+    background-color: #2c3460;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 150px;
+    color: #999;
+}
+
+.watchlist ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.watchlist li {
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.add-watchlist-form input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: calc(100% - 90px);
+    border-radius: 4px;
+}
+
+.add-watchlist-form button {
+    padding: 8px;
+    background-color: #4e7fff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #4caf50;
+    color: white;
+}
+
+.alert-danger {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Login/Signup Form Styles */
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; /* Center the form container */
+}
+
+.form-box {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    width: 45%;  /* Adjust the width to 45% for side-by-side forms */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-box h2 {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.form-box p {
+    color: #b2becd;
+    margin-bottom: 10px;
+}
+
+.form-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.form-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+.form-box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4e7fff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-box button:hover {
+    background-color: #3366cc;
+}
+
+a {
+    color: #4e7fff;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Portfolio Summary */
+.portfolio-summary h2, .portfolio-summary h3, .portfolio-summary p {
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+/* Chart Placeholder */
+.chart {
+    background-color: #f0f0f0;
+    height: 150px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 150px; /* Center the text vertically */
+    color: #666;
+}
+.portfolio-summary {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.holdings-section {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #4e7fff;
+    text-align: left;
+    color: #fff;
+}
+/* Overview Section */
+.overview {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.overview-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.account-value {
+    font-size: 24px;
+    color: #fff;
+}
+
+/* Performance Section */
+.performance {
+    background-color: #1d244b;
+    padding: 30px; /* More padding around the content */
+    border-radius: 8px;
+    margin-bottom: 40px; /* More margin to prevent overlap with the section below */
+    text-align: center;
+
+.performance-chart {
+    height: auto;  /* Let the chart dynamically adjust its height */
+    background-color: #000000;
+    margin-bottom: 40px; /* Add more space below the chart */
+    padding: 20px;  /* Add some padding around the chart */
+    border-radius: 8px; /* Keep consistent with other elements */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);  /* Add a box shadow for consistency */
+}
+
+/* Game Info Section */
+.game-info {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Holdings Section */
+.holdings table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.holdings th, .holdings td {
+    padding: 12px;
+    border: 1px solid #4e7fff;
+    text-align: left;
+    font-size: 14px;
+}
+
+.holdings th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.holdings td {
+    color: #fff;
+}
+
+/* Trade History Section */
+.trade-history {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.trade-history button {
+    padding: 10px 20px;
+    background-color: #4e7fff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.trade-history button:hover {
+    background-color: #3366cc;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    color: #fff;
+}
+
+nav a {
+    margin: 0 15px;
+    color: #4e7fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.trading-section {
+    background-color: #1d244b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    color: #f4f6f9;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    color: #f4f6f9;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #4e7fff;
+    background-color: #0a0f2c;
+    color: #f4f6f9;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.form-row .form-group:last-child {
+    margin-right: 0;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.clear-btn, .preview-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.clear-btn {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.preview-btn {
+    background-color: #4e7fff;
+    color: #fff;
+}
+
+.show-max {
+    color: #4e7fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 5px;
+}

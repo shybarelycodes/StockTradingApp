@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Include Plotly JS -->
+    <style>
+        /* Fixed height with responsive width */
+        #portfolio-chart {
+            width: 100%;  /* Full width */
+            max-width: 100%;  /* No horizontal restriction */
+            height: 400px;  /* Fixed height */
+            margin: 0 auto;  /* Center the chart */
+        }
+
+        .performance-chart {
+            margin-bottom: 40px;  /* Add more space below the performance section */
+        }
+
+        /* Make sure the chart container doesn't collapse */
+        .performance {
+            margin-bottom: 40px;  /* Add more space after the chart */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Header Section -->
+        <header>
+            <h1>Stock Market Simulator</h1>
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+                <a href="{{ url_for('trading') }}">Trading</a> 
+                <a href="{{ url_for('portfolio') }}">Portfolio</a>
+                <a href="{{ url_for('research') }}">Research</a>
+            </nav>
+        </header>
+
+        <!-- Overview Section -->
+        <section class="overview">
+            <h2>Overview</h2>
+            <div class="overview-box">
+                <div class="account-value">
+                    <h3>Account Value: ${{ portfolio_value }}</h3>
+                    <p>Today's Change: <span>{{ todays_return }}%</span></p>
+                    <p>Annual Return: <span>{{ annual_return }}%</span></p>
+                    <p>Buying Power: <span>${{ cash_balance }}</span></p>
+                    <p>Cash: <span>${{ cash_balance }}</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Section -->
+        <section class="performance">
+            <h2>Performance</h2>
+            <div class="performance-chart">
+                <div id="portfolio-chart"></div> <!-- Chart will be rendered here -->
+                <script>
+                    // Stock history data passed from Flask
+                    var stockData = {{ stock_history_data | tojson | default('{}') }};
+
+                    var data = [];
+
+                    // Loop through the stock history data and prepare it for the graph
+                    for (var stock in stockData) {
+                        data.push({
+                            x: Object.keys(stockData[stock]),  // Dates for the x-axis
+                            y: Object.values(stockData[stock]),  // Prices for the y-axis
+                            mode: 'lines',
+                            name: stock,
+                            line: { width: 3 }  // Thicker lines for better visibility
+                        });
+                    }
+
+                    // Adjusting the layout to match the theme
+                    var layout = {
+                        title: {
+                            text: 'Portfolio Performance',
+                            font: { color: '#f4f6f9' }  // Light text for the title
+                        },
+                        paper_bgcolor: '#0a0f2c',  // Dark background to match the theme
+                        plot_bgcolor: '#1d244b',   // Dark background for the chart area
+                        xaxis: {
+                            title: { text: 'Date', font: { color: '#f4f6f9' } },
+                            gridcolor: '#4e7fff',  // Grid lines that are visible on dark background
+                            tickcolor: '#f4f6f9',  // Light ticks for readability
+                            tickfont: { color: '#f4f6f9' }  // Light text for the x-axis
+                        },
+                        yaxis: {
+                            title: { text: 'Price (USD)', font: { color: '#f4f6f9' } },
+                            gridcolor: '#4e7fff',  // Grid lines for the y-axis
+                            tickcolor: '#f4f6f9',  // Light ticks for the y-axis
+                            tickfont: { color: '#f4f6f9' }  // Light text for the y-axis
+                        },
+                        margin: {
+                            t: 40,  // Top margin for the title
+                            b: 40,  // Bottom margin
+                            l: 40,  // Left margin
+                            r: 40   // Right margin
+                        },
+                        legend: {
+                            font: { color: '#f4f6f9' }  // Light text for the legend
+                        }
+                    };
+
+                    // Render the chart with the updated layout
+                    Plotly.newPlot('portfolio-chart', data, layout, {responsive: true});
+                </script>
+            </div>
+        </section>
+
+
+        <!-- Holdings Section -->
+        <section class="holdings">
+            <h2>Holdings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                        <th>Current Price</th>
+                        <th>Today's Change</th>
+                        <th>Purchase Price</th>
+                        <th>Qty</th>
+                        <th>Total Value</th>
+                        <th>Total Gain/Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in portfolios %}
+                    <tr>
+                        <td>{{ stock.stock_symbol }}</td>
+                        <td>Company Description</td>
+                        <td>${{ stock.current_price }}</td>
+                        <td>{{ stock.todays_change }}%</td>
+                        <td>${{ stock.avg_price }}</td>
+                        <td>{{ stock.shares }}</td>
+                        <td>${{ stock.total_value }}</td>
+                        <td>{{ stock.total_gain }}%</td>
+                        <!-- Research Link -->
+                        <td><a href="{{ url_for('research', ticker=stock.stock_symbol) }}">Research</a></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8">You have no stock holdings yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Trade History Section -->
+        <section class="trade-history">
+            <h2>Trade History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trade Type</th>
+                        <th>Stock Symbol</th>
+                        <th>Shares</th>
+                        <th>Price</th>
+                        <th>Total Value</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trade in trade_history %}
+                    <tr>
+                        <td>{{ trade.trade_type }}</td>
+                        <td>{{ trade.stock_symbol }}</td>
+                        <td>{{ trade.shares }}</td>
+                        <td>${{ trade.price }}</td>
+                        <td>${{ trade.shares * trade.price }}</td>
+                        <td>{{ trade.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">No trades yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+</body>
+</html>

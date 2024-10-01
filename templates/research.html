@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Research</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Stock Market Simulator - Research</h1>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('portfolio') }}">Portfolio</a>
+            <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a href="{{ url_for('trading') }}">Trading</a>
+            <a href="{{ url_for('research') }}">Research</a>
+        </nav>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <h2>Stock Research</h2>
+        <form action="{{ url_for('research') }}" method="GET">
+            <input type="text" name="ticker" placeholder="Enter Stock Symbol (e.g., AAPL, TSLA)" required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Stock Overview Section -->
+    <section class="stock-overview">
+        <h2>Company Overview: {{ company_name }}</h2>
+        <p><strong>Industry:</strong> {{ industry }}</p>
+        <p><strong>Sector:</strong> {{ sector }}</p>
+        <p><strong>Market Cap:</strong> ${{ market_cap }}</p>
+        <p><strong>P/E Ratio:</strong> {{ pe_ratio }}</p>
+        <p><strong>EPS:</strong> {{ eps }}</p>
+        <p><strong>CEO:</strong> {{ ceo }}</p>
+    </section>
+
+    <!-- Stock Price Section -->
+    <section class="stock-price">
+        <h2>Stock Price: ${{ current_price }}</h2>
+        <p>Today's Change: {{ change_percent }}%</p>
+        <div id="price-chart"></div>
+        <script>
+            var stockData = {{ stock_history | safe }};
+            var data = [{
+                x: stockData.dates,
+                y: stockData.prices,
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#17BECF'}
+            }];
+            var layout = {
+                title: 'Stock Price History',
+                xaxis: {title: 'Date'},
+                yaxis: {title: 'Price (USD)'},
+                plot_bgcolor: '#0a0f2c',
+                paper_bgcolor: '#1d244b',
+                font: {color: '#f4f6f9'}
+            };
+            Plotly.newPlot('price-chart', data, layout);
+        </script>
+    </section>
+
+    <!-- Financial Data Section -->
+    <section class="financial-data">
+        <h2>Financial Statements</h2>
+        <div class="financials-tabs">
+            <button onclick="showTab('income')">Income Statement</button>
+            <button onclick="showTab('balance')">Balance Sheet</button>
+            <button onclick="showTab('cashflow')">Cash Flow</button>
+        </div>
+        <div id="income" class="tab-content">
+            <h3>Income Statement</h3>
+            <table>
+                {% for item in income_statement %}
+                <tr>
+                    <td>{{ item.label }}</td>
+                    <td>{{ item.value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="balance" class="tab-content" style="display:none;">
+            <h3>Balance Sheet</h3>
+            <table>
+                {% for item in balance_sheet %}
+                <tr>
+                    <td>{{ item.label }}</td>
+                    <td>{{ item.value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="cashflow" class="tab-content" style="display:none;">
+            <h3>Cash Flow</h3>
+            <table>
+                {% for item in cashflow %}
+                <tr>
+                    <td>{{ item.label }}</td>
+                    <td>{{ item.value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
